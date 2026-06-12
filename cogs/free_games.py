@@ -39,7 +39,7 @@ async def fetch_epic_free_games(session: aiohttp.ClientSession) -> list[dict]:
                 if discount == 0:
                     title = el.get("title", "알 수 없음")
                     slug = el.get("productSlug") or el.get("urlSlug") or ""
-                    url = f"https://store.epicgames.com/ko/p/{slug}" if slug else "https://store.epicgames.com/ko/free-games"
+                    url = f"https://store.epicgames.com/p/{slug}?lang=ko" if slug else "https://store.epicgames.com/free-games"
                     original_price = el.get("price", {}).get("totalPrice", {}).get("fmtOriginalPrice", "무료")
                     end_date = offer.get("endDate", "")[:10]
                     games.append({
