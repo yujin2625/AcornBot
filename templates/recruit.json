@@ -1,0 +1,8 @@
+{
+  "post_title": "🎮 {game} │ {time}",
+  "text": "🎮 **{game}** │ {time}\n\n⏰ **시간:** {time}\n👥 **인원:** {count}명\n\n📋 **참가자:**\n{members}\n\n📝 **특이사항:** {note}",
+  "buttons": {
+    "join": "✋ 참가하기",
+    "leave": "🚪 취소하기"
+  }
+}
