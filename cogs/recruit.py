@@ -87,11 +87,11 @@ class RecruitView(discord.ui.View):
 
         await interaction.response.edit_message(content=content, view=self)
 
-        # 포스트 제목에 [종료] 추가
+        # 포스트 제목 변경 + 아카이브(잠금)
         thread = interaction.channel
         if isinstance(thread, discord.Thread):
             closed_title = template["post_title_closed"].replace("{game}", self.game).replace("{time}", self.time)
-            await thread.edit(name=closed_title)
+            await thread.edit(name=closed_title, archived=True, locked=True)
 
 
 class Recruit(commands.Cog):
