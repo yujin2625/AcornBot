@@ -1,8 +1,11 @@
 {
   "post_title": "🎮 {game} │ {time}",
+  "post_title_closed": "🔒 [종료] {game} │ {time}",
   "text": "🎮 **{game}** │ {time}\n\n⏰ **시간:** {time}\n👥 **인원:** {count}명\n\n📋 **참가자:**\n{members}\n\n📝 **특이사항:** {note}",
+  "text_closed": "🔒 **[종료] {game}** │ {time}\n\n⏰ **시간:** {time}\n👥 **최종 인원:** {count}명\n\n📋 **참가자:**\n{members}\n\n📝 **특이사항:** {note}\n\n> 이 구인이 종료되었습니다.",
   "buttons": {
     "join": "✋ 참가하기",
-    "leave": "🚪 취소하기"
+    "leave": "🚪 취소하기",
+    "close": "🔒 구인 종료"
   }
 }

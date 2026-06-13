@@ -12,8 +12,8 @@ def load_template() -> dict:
         return json.load(f)
 
 
-def build_content(template: dict, game: str, time: str, members: list[str], note: str) -> str:
-    t = template["text"]
+def build_content(template: dict, game: str, time: str, members: list[str], note: str, closed: bool = False) -> str:
+    t = template["text_closed"] if closed else template["text"]
     member_lines = "\n".join(f"{i+1}. {m}" for i, m in enumerate(members)) if members else "없음"
     return (
         t
@@ -44,10 +44,17 @@ class RecruitView(discord.ui.View):
             style=discord.ButtonStyle.danger,
             custom_id="recruit_leave",
         )
+        close_btn = discord.ui.Button(
+            label=template["buttons"]["close"],
+            style=discord.ButtonStyle.secondary,
+            custom_id="recruit_close",
+        )
         join_btn.callback = self.join_callback
         leave_btn.callback = self.leave_callback
+        close_btn.callback = self.close_callback
         self.add_item(join_btn)
         self.add_item(leave_btn)
+        self.add_item(close_btn)
 
     async def _update(self, interaction: discord.Interaction):
         template = load_template()
@@ -69,6 +76,22 @@ class RecruitView(discord.ui.View):
             await self._update(interaction)
         else:
             await interaction.response.send_message("참가 목록에 없습니다.", ephemeral=True)
+
+    async def close_callback(self, interaction: discord.Interaction):
+        template = load_template()
+        content = build_content(template, self.game, self.time, self.members, self.note, closed=True)
+
+        # 버튼 모두 비활성화
+        for item in self.children:
+            item.disabled = True
+
+        await interaction.response.edit_message(content=content, view=self)
+
+        # 포스트 제목에 [종료] 추가
+        thread = interaction.channel
+        if isinstance(thread, discord.Thread):
+            closed_title = template["post_title_closed"].replace("{game}", self.game).replace("{time}", self.time)
+            await thread.edit(name=closed_title)
 
 
 class Recruit(commands.Cog):
